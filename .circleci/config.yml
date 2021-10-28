@@ -1,20 +1,19 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
 version: 2.1
 
 jobs:
-  test:
+  ast-scan:
     docker:
       - image: checkmarx/ast-cli
-	steps:
-	  - checkout
-	  - run: 
-	      name: Execute CxAST scan
-	      command: |
-		    /app/bin/cx scan create --agent "${AST_AGENT}" --base-uri "${AST_BASE_URI}" --client-id "${AST_CLIENT_ID}" --client-secret "${AST_CLIENT_SECRET}" --tenant "${AST_TENANT}" --project-name "${CIRCLE_PROJECT_REPONAME}" --branch "${CIRCLE_BRANCH}" --scan-types "${AST_SCANTYPE}" --sast-preset-name "${SAST_SCAN_PRESET}" --output-path "${CIRCLE_WORKING_DIRECTORY}/reports" --report-format "${REPORT_FORMAT}" --file-source . ${PARAMS}
-	  - store_artifacts:
-          path: "${CIRCLE_WORKING_DIRECTORY}/reports"
-      
+    steps:
+    - checkout
+    - run:
+        name: Execute CxAST scan
+        command: |
+          /app/bin/cx scan create --agent "${AST_AGENT}" --base-uri "${AST_BASE_URI}" --client-id "${AST_CLIENT_ID}" --client-secret "${AST_CLIENT_SECRET}" --tenant "${AST_TENANT}" --project-name   "${CIRCLE_PROJECT_REPONAME}" --branch "${CIRCLE_BRANCH}" --scan-types "${AST_SCANTYPE}" --sast-preset-name "${SAST_SCAN_PRESET}" --output-path "${CIRCLE_WORKING_DIRECTORY}/reports" --report-format "${REPORT_FORMAT}" --file-source . ${PARAMS} 
+    - store_artifacts:
+        path: '${CIRCLE_WORKING_DIRECTORY}/reports'
+
 workflows:
-  say-hello-workflow:
+  ast-workflow:
     jobs:
-      - test
+      - ast-scan
