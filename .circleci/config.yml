@@ -11,7 +11,7 @@ jobs:
         command: |
           /app/bin/cx scan create --agent "${AST_AGENT}" --base-uri "${AST_BASE_URI}" --client-id "${AST_CLIENT_ID}" --client-secret "${AST_CLIENT_SECRET}" --tenant "${AST_TENANT}" --project-name "${CIRCLE_PROJECT_REPONAME}" --branch "${CIRCLE_BRANCH}" --scan-types "${AST_SCANTYPE}" --sast-preset-name "${SAST_SCAN_PRESET}" --output-path "${CIRCLE_WORKING_DIRECTORY}/reports" --report-format "${REPORT_FORMAT}" --file-source . ${PARAMS}
     - store_artifacts:
-        path: "${CIRCLE_WORKING_DIRECTORY}/reports"
+        path: "reports"
 
 workflows:
   ast-workflow:
